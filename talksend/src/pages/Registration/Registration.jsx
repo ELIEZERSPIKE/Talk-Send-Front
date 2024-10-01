@@ -43,6 +43,7 @@ export default function Registration() {
 
     localStorage.setItem("email", email);
     setIsLoading(true);
+    
     const formData = new FormData();
 
     formData.set("name", name);

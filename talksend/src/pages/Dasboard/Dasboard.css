@@ -1,0 +1,69 @@
+/* Conteneur principal */
+.dashboard-container {
+    max-width: 600px; /* Taille maximale pour un bon affichage sur écran plus grand */
+    margin: 0 auto; /* Centre le conteneur horizontalement */
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Centrer le texte */
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* Style des éléments de formulaire */
+input, select, button {
+    width: 100%; /* Prend toute la largeur du conteneur */
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Style du bouton */
+button {
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+}
+
+/* Effet de survol du bouton */
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Marges pour le formulaire */
+form {
+    margin-top: 20px;
+}
+
+/* Titre des sections de formulaire */
+form h3 {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Responsive pour les petits écrans */
+@media (max-width: 768px) {
+    .dashboard-container {
+        max-width: 90%; /* Réduit la largeur sur les petits écrans */
+        padding: 15px;
+    }
+
+    button {
+        padding: 12px;
+    }
+}
+
+/* Ajout d'un style pour centrer le conteneur sur l'écran */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0; 
+}

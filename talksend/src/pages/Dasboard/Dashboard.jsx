@@ -1,78 +1,388 @@
-import React, { useState } from 'react';
-import Button from '../../components/Button/button';
-import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
-import { useNavigate } from "react-router-dom"; // Ajoutez cette ligne
-import Input from '../../components/Input/Input'; // Assurez-vous d'importer le composant Input
+// import React, { useState, useEffect } from 'react';
 
-export default function Dashboard() {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Déclarez isLoading ici
-  const navigate = useNavigate(); // Initialisez useNavigate
+// const Dashboard = () => {
+//   const [isCreatingGroup, setIsCreatingGroup] = useState(true);
+//   const [groupName, setGroupName] = useState('');
+//   const [groupDescription, setGroupDescription] = useState('');
+//   const [groups, setGroups] = useState([]);
+//   const [email, setEmail] = useState('');
+//   const [inviteName, setInviteName] = useState('');
+//   const [selectedGroup, setSelectedGroup] = useState('');
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+//    useEffect(() => {
+//     fetchGroups();
+//    }, []);
+
+//   const fetchGroups = async () => {
+//     setIsLoading(true);
+//     setError('');
+//     try {
+//       const response = await fetch('http://127.0.0.1:8000/api/v1.0.0/groups');
+//       const data = await response.json();
+
+//       console.log(data.data[0]);
+//       setGroups(data.data[0]);
+
+//       if (Array.isArray(data.data[0])) {
+
+//       } else {
+//         setError("Erreur: Les données récupérées ne sont pas un tableau.");
+//         setGroups([]);
+//       }
+//     } catch (error) {
+//       setError("Erreur lors de la récupération des groupes.");
+//       setGroups([]);
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+
+//   const handleToggle = () => {
+//     setIsCreatingGroup(!isCreatingGroup);
+//   };
+
+//   const handleCreateGroup = async () => {
+//     if (groupName && groupDescription) {
+//       const newGroup = { name: groupName, description: groupDescription };
+
+//       try {
+//         await fetch('http://127.0.0.1:8000/api/v1.0.0/group', {
+//           method: 'POST',
+//           headers: {
+//             'Content-Type': 'application/json',
+//           },
+//           body: JSON.stringify(newGroup),
+//         });
+//         fetchGroups();
+//         setGroupName('');
+//         setGroupDescription('');
+//       } catch (error) {
+//         console.error("Erreur lors de la création du groupe:", error);
+//       }
+//     }
+//   };
+
+//   const handleSendInvitation = async () => {
+//     if (inviteName && email && selectedGroup) {
+//       const invitationData = {
+//         name: inviteName,
+//         email: email,
+//       };
+
+//       try {
+//         await fetch(`http://127.0.0.1:8000/api/v1.0.0/groups/${selectedGroup}/invite`, {
+//           method: 'POST',
+//           headers: {
+//             'Content-Type': 'application/json',
+//           },
+//           body: JSON.stringify(invitationData),
+//         });
+//         setInviteName('');
+//         setEmail('');
+//         setSelectedGroup('');
+//       } catch (error) {
+//         console.error("Erreur lors de l'envoi de l'invitation:", error);
+//       }
+//     } else {
+//       alert("Veuillez remplir tous les champs !");
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <h1>Dashboard</h1>
+//       <button onClick={handleToggle}>
+//         {isCreatingGroup ? 'Envoyer une invitation' : 'Créer un groupe'}
+//       </button>
+
+//       {isCreatingGroup ? (
+//         <div>
+//           <h2>Créer un groupe</h2>
+//           <input
+//             type="text"
+//             placeholder="Nom du groupe"
+//             value={groupName}
+//             onChange={(e) => setGroupName(e.target.value)}
+//           />
+//           <input
+//             type="text"
+//             placeholder="Description du groupe"
+//             value={groupDescription}
+//             onChange={(e) => setGroupDescription(e.target.value)}
+//           />
+//           <button onClick={handleCreateGroup}>Créer le groupe</button>
+//         </div>
+//       ) : (
+//         <div>
+//           <h2>Envoyer une invitation</h2>
+//           <input
+//             type="text"
+//             placeholder="Nom de la personne invitée"
+//             value={inviteName}
+//             onChange={(e) => setInviteName(e.target.value)}
+//           />
+//           <input
+//             type="email"
+//             placeholder="Email de la personne"
+//             value={email}
+//             onChange={(e) => setEmail(e.target.value)}
+//           />
+//           <select
+//             value={selectedGroup}
+//             onChange={(e) => setSelectedGroup(e.target.value)}
+//           >
+//             <option value="">Sélectionner un groupe</option>
+//             {Array.isArray(groups) && groups.length > 0 ? (
+//               groups.map((group) => (
+//                 <option key={group.id} value={group.id}>
+//                   {group.name}
+//                 </option>
+//               ))
+//             ) : (
+//               <option disabled>Aucun groupe disponible</option>
+//             )}
+//           </select>
+//           <button onClick={handleSendInvitation}>Envoyer l'invitation</button>
+//         </div>
+//       )}
+
+//       <h2>Groupes auxquels vous appartenez</h2>
+//       {isLoading ? (
+//         <p>Chargement des groupes...</p>
+//       ) : (
+//         <>
+//           {error && <p style={{ color: 'red' }}>{error}</p>}
+//           <ul>
+
+//             { groups.length > 0 ? (
+//               groups.map((group) => (
+//                 <li key={group.id}>
+//                   <strong>{group.name}</strong>: {group.description}
+//                 </li>
+//               ))
+//             ) : (
+//               <li>Aucun groupe disponible</li>
+//             )}
+//           </ul>
+//         </>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Dashboard;
+
+import React, { useState, useEffect } from "react";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import "../Dasboard/Dasboard.css";
+
+const Dashboard = () => {
+  const [isCreatingGroup, setIsCreatingGroup] = useState(true);
+  const [groupName, setGroupName] = useState("");
+  const [groupDescription, setGroupDescription] = useState("");
+  const [groups, setGroups] = useState([]);
+  const [email, setEmail] = useState("");
+  const [inviteName, setInviteName] = useState("");
+  const [selectedGroup, setSelectedGroup] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [file, setFile] = useState(null);
+  const [groupId, setGroupId] = useState(null);
+
+  useEffect(() => {
+    fetchGroups();
+  }, []);
+
+  const fetchGroups = async () => {
     setIsLoading(true);
-    const formData = new FormData();
-    formData.set("name", name);
-    formData.set("description", description);
-
+    setError("");
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/v1.0.0/group", formData);
-
-      if (response.data.success) {
-        toast.success(response.data.message);
-        setTimeout(() => {
-          navigate("/dashboard"); // Vous pourriez vouloir naviguer vers une autre page
-        }, 3000);
-      } else {
-        console.log(response.data);
-        toast.error("Ça ne passe pas, c'est incorrect");
-      }
+      const response = await fetch("http://127.0.0.1:8000/api/v1.0.0/groups");
+      const data = await response.json();
+      setGroups(data.data[0] || []);
     } catch (error) {
-      console.error(error);
-      toast.error("Une erreur est survenue. Veuillez réessayer.");
+      setError("Erreur lors de la récupération des groupes.");
+      setGroups([]);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const handleToggle = () => {
+    setIsCreatingGroup(!isCreatingGroup);
+  };
+
+  const handleCreateGroup = async () => {
+    if (groupName && groupDescription) {
+      const newGroup = { name: groupName, description: groupDescription };
+      try {
+        await fetch("http://127.0.0.1:8000/api/v1.0.0/group", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newGroup),
+        });
+        fetchGroups();
+        setGroupName("");
+        setGroupDescription("");
+        toast.success("Groupe créé avec succès !");
+      } catch (error) {
+        console.error("Erreur lors de la création du groupe:", error);
+        toast.error("Erreur lors de la création du groupe.");
+      }
+    }
+  };
+
+  const handleSendInvitation = async () => {
+    if (inviteName && email && selectedGroup) {
+      const invitationData = { name: inviteName, email: email };
+      try {
+        await fetch(
+          `http://127.0.0.1:8000/api/v1.0.0/groups/${selectedGroup}/invite`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(invitationData),
+          }
+        );
+        setInviteName("");
+        setEmail("");
+        setSelectedGroup("");
+        toast.success("Invitation envoyée avec succès !");
+      } catch (error) {
+        console.error("Erreur lors de l'envoi de l'invitation:", error);
+        toast.error("Erreur lors de l'envoi de l'invitation.");
+      }
+    } else {
+      toast.warn("Veuillez remplir tous les champs !");
+    }
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleSend = async (e, id) => {
+    e.preventDefault();
+    setGroupId(id);
+    if (file && groupId) {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/api/v1.0.0/upload-file/${groupId}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Erreur lors de l'envoi du fichier.");
+        }
+
+        setFile(null);
+        toast.success("Fichier envoyé avec succès !");
+      } catch (error) {
+        console.error("Erreur lors de l'envoi du fichier:", error);
+        toast.error("Erreur lors de l'envoi du fichier.");
+      }
+    } else {
+      toast.warn("Veuillez sélectionner un fichier et un groupe !");
+    }
+  };
+
   return (
     <div>
-      <h1>Talk send</h1>
-      <Button text={'Déconnexion'} />
+      <ToastContainer />
+      <h1>Rafiki Corporation</h1>
+      <button onClick={handleToggle}>
+        {isCreatingGroup ? "Envoyer une invitation" : "Créer un groupe"}
+      </button>
 
-      <div id="container">
-        <ToastContainer />
-        <h1>Créer un groupe</h1>
-        <form onSubmit={handleSubmit}>
-          <p>Créer un groupe</p>
-
-          <Input
-            label={"Nom"}
-            reference={"name"}
-            type={"text"}
-            value={name}
-            placeholder={"Saisir votre nom de groupe"}
-            onChange={(e) => setName(e.target.value)}
+      {isCreatingGroup ? (
+        <div>
+          <h2>Créer un groupe</h2>
+          <input
+            type="text"
+            placeholder="Nom du groupe"
+            value={groupName}
+            onChange={(e) => setGroupName(e.target.value)}
           />
-
-          <Input
-            label={"Description"}
-            reference={"description"}
-            type={"text"}
-            value={description}
-            placeholder={"Saisir votre description de groupe"}
-            onChange={(e) => setDescription(e.target.value)}
+          <input
+            type="text"
+            placeholder="Description du groupe"
+            value={groupDescription}
+            onChange={(e) => setGroupDescription(e.target.value)}
           />
+          <button onClick={handleCreateGroup}>Créer le groupe</button>
+        </div>
+      ) : (
+        <div>
+          <h2>Envoyer une invitation</h2>
+          <input
+            type="text"
+            placeholder="Nom de la personne invitée"
+            value={inviteName}
+            onChange={(e) => setInviteName(e.target.value)}
+          />
+          <input
+            type="email"
+            placeholder="Email de la personne"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <select
+            value={selectedGroup}
+            onChange={(e) => setSelectedGroup(e.target.value)}
+          >
+            <option value="">Sélectionner un groupe</option>
+            {Array.isArray(groups) && groups.length > 0 ? (
+              groups.map((group) => (
+                <option key={group.id} value={group.id}>
+                  {group.name}
+                </option>
+              ))
+            ) : (
+              <option disabled>Aucun groupe disponible</option>
+            )}
+          </select>
+          <button onClick={handleSendInvitation}>Envoyer l'invitation</button>
+        </div>
+      )}
 
+      <h2>Groupes auxquels vous appartenez</h2>
+      {isLoading ? (
+        <p>Chargement des groupes...</p>
+      ) : (
+        <>
+          {error && <p style={{ color: "red" }}>{error}</p>}
           <div>
-            <Button disabled={isLoading} type={"submit"} text={isLoading ? "Chargement" : "Soumettre"} />
-            <Button type={"reset"} text={"Annuler"} />
+            {groups.length > 0 ? (
+              groups.map((group) => (
+                <div key={group.id}>
+                  <strong>{group.name}</strong>: {group.description}
+                  <form onSubmit={(e) => handleSend(e, group.id)}>
+                    <h3>Envoyer un fichier</h3>
+                    <input type="file" onChange={handleFileChange} />
+                    <button type="submit">Envoyer le fichier</button>
+                  </form>
+                </div>
+              ))
+            ) : (
+              <li>Aucun groupe disponible</li>
+            )}
           </div>
-        </form>
-      </div>
+        </>
+      )}
     </div>
   );
-}
+};
+
+export default Dashboard;
+
