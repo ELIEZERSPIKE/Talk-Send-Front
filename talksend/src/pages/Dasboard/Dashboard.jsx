@@ -21,20 +21,44 @@ const Dashboard = () => {
     fetchGroups();
   }, []);
 
+  // const fetchGroups = async () => {
+  //   setIsLoading(true);
+  //   setError("");
+  //   try {
+  //     const response = await fetch("http://127.0.0.1:8000/api/v1.0.0/groups");
+  //     const data = await response.json();
+  //     setGroups(data.data[0] || []);
+  //   } catch (error) {
+  //     setError("Erreur lors de la récupération des groupes.");
+  //     setGroups([]);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+
   const fetchGroups = async () => {
     setIsLoading(true);
     setError("");
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/v1.0.0/groups");
+      const response = await fetch(`http://127.0.0.1:8000/api/v1.0.0/groups`); 
+  
+      if (!response.ok) {
+        throw new Error("Erreur réseau");
+      }
+      
       const data = await response.json();
-      setGroups(data.data[0] || []);
+      console.log(data); // Ajoutez ceci pour déboguer
+      setGroups(data.data || []); // Assurez-vous de récupérer tous les groupes
     } catch (error) {
-      setError("Erreur lors de la récupération des groupes.");
+      setError("Erreur lors de la récupération des groupes créés");
       setGroups([]);
     } finally {
       setIsLoading(false);
     }
   };
+  
+
 
   const fetchFiles = async () => {
     if (groupId) {
