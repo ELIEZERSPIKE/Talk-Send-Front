@@ -21,20 +21,7 @@ const Dashboard = () => {
     fetchGroups();
   }, []);
 
-  // const fetchGroups = async () => {
-  //   setIsLoading(true);
-  //   setError("");
-  //   try {
-  //     const response = await fetch("http://127.0.0.1:8000/api/v1.0.0/groups");
-  //     const data = await response.json();
-  //     setGroups(data.data[0] || []);
-  //   } catch (error) {
-  //     setError("Erreur lors de la récupération des groupes.");
-  //     setGroups([]);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+ 
 
 
   const fetchGroups = async () => {
